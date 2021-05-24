@@ -34,5 +34,5 @@
             (setf *failure* (1+ *failure*))) 
           (princ (string-trim "()" (princ-to-string a)))))
 
-(princ (string-trim "()" (princ-to-string a)))
+(princ (string-trim "()" (princ-to-string `(Success rate: ,(/ *success* (+ *success* *failure*))))))
 
