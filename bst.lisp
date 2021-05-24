@@ -1,13 +1,13 @@
 (setf *random-state* (make-random-state t))
 
-(defparameter *arrsz* 100000)
+(defparameter *arrsz* 1000)
 (defparameter *anarray* (make-array *arrsz*))
 
 
 (defun setarray () 
     (loop 
       for i from 0 to (- *arrsz* 1)
-      do (setf (aref *anarray* i) (random 120981)))
+      do (setf (aref *anarray* i) (random 500)))
 
     (sort *anarray* #'<))
 
@@ -28,11 +28,11 @@
 
 (loop for i below 100 do 
       (setarray)
-      (multiple-value-bind (r a) (bst 82 *anarray* 0 (length *anarray*))
+      (multiple-value-bind (r a) (bst 57 *anarray* 0 (length *anarray*))
           (if r
             (setf *success* (1+ *success*)) 
-            (setf *failure* (1+ *failure*))) 
-          (princ (string-trim "()" (princ-to-string a)))))
+            (setf *failure* (1+ *failure*)))))
 
-(princ (string-trim "()" (princ-to-string `(Success rate: ,(/ *success* (+ *success* *failure*))))))
+(fresh-line)
+(princ (string-trim "()" (princ-to-string `(Success rate ,(/ *success* (+ (float *success*) *failure*))))))
 
