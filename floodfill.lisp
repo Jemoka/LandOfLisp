@@ -1,5 +1,7 @@
-(defconstant MAX-NODES 12)
-(defconstant NUM-EDGES 12)
+(setf *random-state* (make-random-state t))
+
+(defconstant MAX-NODES (random 500))
+(defconstant NUM-EDGES (random 500))
 
 (defun make-edge (table)
   (let ((a (random MAX-NODES)) (b (random MAX-NODES)))
@@ -15,6 +17,16 @@
         c)
     e))
 
+(defun get-num-blobs (table)
+  (let* ((nodes nil) (seen nil) (blobs 0)) 
+    (maphash (lambda (x y) (push x nodes)) table)
+    (mapcar (lambda (n)
+              (when (not (member n seen))
+                (incf blobs)
+                (setf seen (concatenate 'list seen (get-connected n table)))))
+              nodes)
+    blobs))
+
 (defparameter *tree* (make-hash-table))
 
 (defun populate-tree (tree)
@@ -26,5 +38,8 @@
           (push b (gethash a tree)))))
 
 (populate-tree *tree*)
-;(get-connected 7 *tree*)
+(defparameter *num-blobs* (get-num-blobs *tree*))
+
+(format t "~10t~a ~25t~a ~35t~a~%" "Max Nodes" "# Edges" "Blobs")
+(format t "~10t~a ~25t~a ~35t~a" MAX-NODES NUM-EDGES *num-blobs*)
 
