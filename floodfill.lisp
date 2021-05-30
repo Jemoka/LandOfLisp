@@ -1,7 +1,10 @@
 (setf *random-state* (make-random-state t))
 
-(defconstant MAX-NODES (random 500))
-(defconstant NUM-EDGES (random 500))
+(princ "Max nodes: ") (finish-output)
+(defconstant MAX-NODES (read))
+(princ "Num edges: ") (finish-output)
+(defconstant NUM-EDGES (read))
+(fresh-line)
 
 (defun make-edge (table)
   (let ((a (random MAX-NODES)) (b (random MAX-NODES)))
@@ -41,6 +44,5 @@
 (defparameter *num-blobs* (get-num-blobs *tree*))
 
 (format t "~10t~a ~25t~a ~35t~a~%" "Max Nodes" "# Edges" "Blobs")
-(format t "~10t~a ~25t~a ~35t~a" MAX-NODES NUM-EDGES *num-blobs*)
-(fresh-line)
+(format t "~10t~a ~25t~a ~35t~a~%~%" MAX-NODES NUM-EDGES *num-blobs*)
 
