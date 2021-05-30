@@ -42,4 +42,5 @@
 
 (format t "~10t~a ~25t~a ~35t~a~%" "Max Nodes" "# Edges" "Blobs")
 (format t "~10t~a ~25t~a ~35t~a" MAX-NODES NUM-EDGES *num-blobs*)
+(fresh-line)
 
