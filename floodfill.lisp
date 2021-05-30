@@ -8,13 +8,12 @@
             (make-edge table)))) ;; this should 1) not happen much 2) tail recursion baybee
 
 (defun get-connected (node table &optional visited)
-  (let ((c visited) (nodes (gethash node table))) 
-    (setf c (concatenate 'list c nodes))
+  (let* ((nodes (gethash node table)) (c (remove-if (lambda (n) (member n visited)) nodes)) (e nil)) 
     (mapcar (lambda (n) 
-              (unless (member n visited) 
-                (setf c (remove-duplicates (concatenate 'list c (get-connected n table c))))))
-            nodes)
-    c))
+              (push n e)
+              (setf e (concatenate 'list e (get-connected n table (concatenate 'list visited c e)))))
+        c)
+    e))
 
 (defparameter *tree* (make-hash-table))
 
